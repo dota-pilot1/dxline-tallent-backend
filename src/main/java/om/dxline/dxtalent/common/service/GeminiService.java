@@ -25,6 +25,59 @@ public class GeminiService {
     private static final String GEMINI_API_URL =
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
+    public String chat(String systemPrompt, String userMessage) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            String fullPrompt =
+                systemPrompt + "\n\n사용자 메시지: " + userMessage;
+
+            Map<String, Object> requestBody = Map.of(
+                "contents",
+                List.of(Map.of("parts", List.of(Map.of("text", fullPrompt)))),
+                "generationConfig",
+                Map.of("temperature", 0.3, "maxOutputTokens", 2048)
+            );
+
+            String url = GEMINI_API_URL + "?key=" + apiKey;
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(
+                requestBody,
+                headers
+            );
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                entity,
+                String.class
+            );
+
+            if (
+                response.getStatusCode().is2xxSuccessful() &&
+                response.getBody() != null
+            ) {
+                JsonNode root = objectMapper.readTree(response.getBody());
+                JsonNode candidates = root.path("candidates");
+                if (candidates.isArray() && !candidates.isEmpty()) {
+                    return candidates
+                        .get(0)
+                        .path("content")
+                        .path("parts")
+                        .get(0)
+                        .path("text")
+                        .asText();
+                }
+            }
+
+            log.error("Gemini API chat error: {}", response.getBody());
+            return null;
+        } catch (Exception e) {
+            log.error("Failed to chat with Gemini", e);
+            return null;
+        }
+    }
+
     public String parseResumeText(String resumeText) {
         String prompt =
             """
