@@ -13,7 +13,13 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8000"));
+        configuration.setAllowedOrigins(
+            List.of(
+                "http://localhost:8000",
+                "http://localhost:3000",
+                "https://d1841s1y3ps0cj.cloudfront.net"
+            )
+        );
         configuration.setAllowedMethods(
             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         );
