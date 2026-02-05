@@ -83,6 +83,7 @@ public class ResumeFileService {
             );
 
         s3UploadService.deleteFile(file.getS3Url());
+        resumeProfileRepository.deleteByResumeFileId(fileId);
         resumeFileRepository.deleteByIdAndUserId(fileId, userId);
     }
 

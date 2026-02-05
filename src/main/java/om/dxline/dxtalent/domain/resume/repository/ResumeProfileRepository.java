@@ -24,4 +24,6 @@ public interface ResumeProfileRepository
         @Param("skill") String skill,
         @Param("task") String task
     );
+
+    void deleteByResumeFileId(Long resumeFileId);
 }
