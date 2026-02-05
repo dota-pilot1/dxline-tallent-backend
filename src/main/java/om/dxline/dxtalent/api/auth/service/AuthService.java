@@ -65,6 +65,7 @@ public class AuthService {
         return LoginResponse.of(
             token,
             expiration / 1000,
+            user.getId(),
             user.getEmail(),
             user.getName(),
             user.getRole().name()
