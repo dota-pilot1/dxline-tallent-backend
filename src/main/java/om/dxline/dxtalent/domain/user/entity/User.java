@@ -1,6 +1,9 @@
 package om.dxline.dxtalent.domain.user.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,10 +11,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -36,6 +35,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = true)
+    private String status = "ACTIVE";
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -48,6 +50,7 @@ public class User implements UserDetails {
         this.password = password;
         this.name = name;
         this.role = role;
+        this.status = "ACTIVE";
     }
 
     @PrePersist
