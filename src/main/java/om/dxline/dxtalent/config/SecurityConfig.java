@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -42,6 +44,10 @@ public class SecurityConfig {
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
                     .permitAll()
                     .requestMatchers("/ws/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/boards/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/posts/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
