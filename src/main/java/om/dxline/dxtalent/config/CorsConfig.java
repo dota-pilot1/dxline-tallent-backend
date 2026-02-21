@@ -18,7 +18,8 @@ public class CorsConfig {
                 "http://localhost:8000",
                 "http://localhost:3000",
                 "https://d1841s1y3ps0cj.cloudfront.net",
-                "https://dxline-tallent.com"
+                "https://dxline-tallent.com",
+                "https://www.dxline-tallent.com"
             )
         );
         configuration.setAllowedMethods(
